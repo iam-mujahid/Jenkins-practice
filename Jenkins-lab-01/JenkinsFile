@@ -10,18 +10,33 @@ pipeline {
             }
         }
 
-        stage('System Information') {
+        stage('Workspace') {
             steps {
+                sh 'echo "Current user:"'
                 sh 'whoami'
+
+                sh 'echo "Current directory:"'
                 sh 'pwd'
+
+                sh 'echo "Files:"'
                 sh 'ls -la'
             }
         }
 
-        stage('Finish') {
+        stage('Create File') {
             steps {
-                echo 'Pipeline completed!'
+                sh 'echo "Created by Jenkins" > jenkins-file.txt'
+                sh 'cat jenkins-file.txt'
             }
         }
+
+        stage('Check File') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
+                sh 'cat jenkins-file.txt'
+            }
+        }
+
     }
 }
