@@ -3,6 +3,7 @@ pipeline {
     agent {
         docker {
             image 'node:20-alpine'
+            args '-u 0:0'
         }
     }
 
@@ -13,13 +14,12 @@ pipeline {
 
                 sh 'echo "=== SYSTEM ==="'
                 sh 'whoami'
+                sh 'id'
                 sh 'hostname'
                 sh 'pwd'
 
-                sh 'echo "=== NODE.JS ==="'
+                sh 'echo "=== NODE ==="'
                 sh 'node --version'
-
-                sh 'echo "=== NPM ==="'
                 sh 'npm --version'
 
                 sh 'echo "=== OS ==="'
