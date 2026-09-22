@@ -1,21 +1,32 @@
 pipeline {
 
-    agent any
+    agent {
+        docker {
+            image 'node:20-alpine'
+        }
+    }
 
     stages {
 
-        stage('Normal Jenkins Agent') {
+        stage('Docker Agent') {
             steps {
+
                 sh 'echo "=== SYSTEM ==="'
                 sh 'whoami'
                 sh 'hostname'
                 sh 'pwd'
 
                 sh 'echo "=== NODE.JS ==="'
-                sh 'node --version || echo "Node.js is NOT installed"'
+                sh 'node --version'
 
                 sh 'echo "=== NPM ==="'
-                sh 'npm --version || echo "npm is NOT installed"'
+                sh 'npm --version'
+
+                sh 'echo "=== OS ==="'
+                sh 'cat /etc/os-release'
+
+                sh 'echo "=== WORKSPACE ==="'
+                sh 'ls -la'
             }
         }
     }
