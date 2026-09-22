@@ -1,0 +1,27 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Hello') {
+            steps {
+                echo 'Hello from Jenkins!'
+            }
+        }
+
+        stage('System Information') {
+            steps {
+                sh 'whoami'
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Finish') {
+            steps {
+                echo 'Pipeline completed!'
+            }
+        }
+    }
+}
