@@ -1,32 +1,50 @@
 pipeline {
 
-    agent {
-        docker {
-            image 'node:20-alpine'
-            args '-u 0:0'
-        }
-    }
+    agent none
 
     stages {
 
-        stage('Docker Agent') {
+        stage('Node Stage') {
+
+            agent {
+                docker {
+                    image 'node:20-alpine'
+                    args '-u 0:0'
+                }
+            }
+
             steps {
 
-                sh 'echo "=== SYSTEM ==="'
+                sh 'echo "=== NODE CONTAINER ==="'
                 sh 'whoami'
-                sh 'id'
                 sh 'hostname'
-                sh 'pwd'
-
-                sh 'echo "=== NODE ==="'
                 sh 'node --version'
-                sh 'npm --version'
 
-                sh 'echo "=== OS ==="'
-                sh 'cat /etc/os-release'
+                sh 'echo "Hello from Node container" > shared-file.txt'
 
-                sh 'echo "=== WORKSPACE ==="'
-                sh 'ls -la'
+                sh 'echo "File created:"'
+                sh 'cat shared-file.txt'
+            }
+        }
+
+        stage('Python Stage') {
+
+            agent {
+                docker {
+                    image 'python:3.12-alpine'
+                    args '-u 0:0'
+                }
+            }
+
+            steps {
+
+                sh 'echo "=== PYTHON CONTAINER ==="'
+                sh 'whoami'
+                sh 'hostname'
+                sh 'python --version'
+
+                sh 'echo "Reading file created by previous container:"'
+                sh 'cat shared-file.txt'
             }
         }
     }
