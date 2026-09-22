@@ -4,39 +4,19 @@ pipeline {
 
     stages {
 
-        stage('Hello') {
+        stage('Normal Jenkins Agent') {
             steps {
-                echo 'Hello from Jenkins!'
-            }
-        }
-
-        stage('Workspace') {
-            steps {
-                sh 'echo "Current user:"'
+                sh 'echo "=== SYSTEM ==="'
                 sh 'whoami'
-
-                sh 'echo "Current directory:"'
+                sh 'hostname'
                 sh 'pwd'
 
-                sh 'echo "Files:"'
-                sh 'ls -la'
+                sh 'echo "=== NODE.JS ==="'
+                sh 'node --version || echo "Node.js is NOT installed"'
+
+                sh 'echo "=== NPM ==="'
+                sh 'npm --version || echo "npm is NOT installed"'
             }
         }
-
-        stage('Create File') {
-            steps {
-                sh 'echo "Created by Jenkins" > jenkins-file.txt'
-                sh 'cat jenkins-file.txt'
-            }
-        }
-
-        stage('Check File') {
-            steps {
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'cat jenkins-file.txt'
-            }
-        }
-
     }
 }
